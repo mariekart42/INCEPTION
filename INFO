@@ -1,0 +1,5 @@
+to build container:
+!:		docker build -t <name_of_folder> .
+
+to run container:
+!:		docker run -d -p <port> <name_of_folder>				eg. port: 6969:80
