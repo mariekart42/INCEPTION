@@ -8,7 +8,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY my-nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy your HTML file to the default NGINX directory
-COPY sample.html /usr/share/nginx/html
+COPY read.html /usr/share/nginx/html
 
 # Expose port 80 to allow incoming connections
 EXPOSE 80

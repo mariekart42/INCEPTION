@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cool HTML File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Cool HTML Page!</h1>
+    <p>This is an example of a cool HTML file with some styling and interactive elements.</p>
+    <button class="button">Click Me!</button>
+	
+    <script>
+		var button = document.querySelector('.button');
+        button.addEventListener('click', function() {
+			alert('You clicked the button!');
+        });
+		</script>
+	<p>This is an example of a cool HTML file with some styling and interactive elements.</p>
+	<h1>File Contents</h1>
+    <pre id="file-content"></pre>
+
+    <script>
+        // Fetch the text file and display its contents
+        fetch('INFO.txt')
+            .then(response => response.text())
+            .then(data => {
+                const fileContent = document.getElementById('file-content');
+                fileContent.textContent = data;
+            })
+            .catch(error => console.log(error));
+    </script>
+</body>
+</html>

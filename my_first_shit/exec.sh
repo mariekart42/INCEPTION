@@ -9,5 +9,6 @@ if [ -z "$port" ]; then
   exit 1
 fi
 
+# docker rm $(docker ps -qlf "publish=$port:80")
 docker build -t my-html-app .
-docker run -d -p $port:80 my-html-app
+docker run --name MyShit -d -p $port:80 my-html-app
