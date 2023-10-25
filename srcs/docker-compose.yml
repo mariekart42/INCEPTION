@@ -1,0 +1,78 @@
+version: "3.9"
+
+networks:
+  localhost:
+    name: mmensing
+
+services:
+
+  nginx:
+#    depends_on:  # meant is a service, here docker-compose will first create service wordpress and then ngnix
+#      - wordpress
+    container_name: nginx_container
+    build:
+      context: ./srcs/requirements/NGNIX
+    image: nginx  # specify image name
+#    volumes:
+#      - wp:/var/www/
+    ports:
+      - "443:80"
+    networks:
+      - localhost
+    restart: always
+
+#  wordpress:
+#    depends_on:
+#      - mariadb
+#    container_name: wordpress_container
+#    build:
+#      context: ./requirements/WORDPRESS
+#      args:  #from .env
+#        - DB_NAME
+#        - DB_HOST
+#        - DB_PASSWORD
+#        - DB_USER
+#        - DOMAIN_NAME
+#    env_file:
+#      - .env
+#    image: wordpress
+#    volumes:
+#      - wp:/var/www/
+#    networks:
+#      - localhost
+#    restart: always
+#
+#  mariadb:
+#    container_name: mariadb_container
+#    build:
+#      context: ./requirements/MARIADB
+#      args:
+#        - DB_NAME
+#        - DB_HOST
+#        - DB_PASSWORD
+#        - DB_USER
+#    env_file:
+#      - .env
+#    image: mariadb
+#    volumes:
+#      - db:/var/lib/mysql
+#    networks:
+#      - localhost
+#    restart: always
+#
+#
+#volumes:
+#  db:
+#    name: db
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: ~/mmensing/data/db
+#  wp:
+#    name: wp
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: ~/mmensing/data/wp
