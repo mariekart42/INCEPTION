@@ -1,2 +1,2 @@
 23.03.2024
-- created NGNIX container, create ssl for 443 now
+- created NGINX container, create ssl for 443 now
