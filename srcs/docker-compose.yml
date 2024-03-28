@@ -5,21 +5,73 @@ networks:
     name: mmensing
 
 services:
-
   nginx:
-#    depends_on:  # meant is a service, here docker-compose will first create service wordpress and then ngnix
-#      - wordpress
-    container_name: nginx_container
-    build:
-      context: ./srcs/requirements/NGNIX
-    image: nginx  # specify image name
-#    volumes:
-#      - wp:/var/www/
-    ports:
-      - "443:80"
+    depends_on:
+      - wordpress
+    container_name: nginx
+    image: nginx
+    build: requirements/NGINX
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - wp:/var/www/
     networks:
       - localhost
-    restart: always
+    ports:
+      - "3333:443"
+
+  wordpress:
+    depends_on:
+      - mariadb
+    container_name: wordpress
+    image: wordpress
+    build: requirements/WORDPRESS
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - localhost
+    volumes:
+      - wp:/var/www/
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    build: requirements/MARIADB
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - localhost
+    volumes:
+      - db:/var/lib/mysql
+
+
+volumes:
+  db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/MARIADB
+  wp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/WORDPRESS
+
+#    depends_on:  # meant is a service, here docker-compose will first create service wordpress and then ngnix
+#      - wordpress
+#    container_name: nginx_container
+#    build:
+#      context: ./srcs/requirements/NGINX
+#    image: nginx  # specify image name
+##    volumes:
+##      - wp:/var/www/
+#    ports:
+#      - "443:80"
+#    networks:
+#      - localhost
+#    restart: always
 
 #  wordpress:
 #    depends_on:

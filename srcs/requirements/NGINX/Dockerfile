@@ -1,5 +1,5 @@
 # Use the official Nginx image as the base image
-FROM alpine:latest
+FROM alpine:3.12
 
 RUN apk update
 RUN apk add nginx openssl
@@ -11,23 +11,14 @@ RUN openssl req -x509 -nodes -days 1 -newkey rsa:2048 \
 	-keyout /etc/ssl/private/ft_inception.key -out /etc/ssl/certs/ft_inception.crt
 
 
+#COPY ./conf/default.conf /etc/nginx/default.conf
+COPY ./conf/default.conf /etc/nginx/conf.d/
 
-## Create directories in the container to copy files
-#RUN mkdir -p /etc/nginx/conf.d
-#RUN mkdir -p /usr/share/nginx/html
-#
-## Copy your custom nginx.conf file to the container
-#COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
+RUN mkdir /run/nginx/
 
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-
-#
-## Copy your HTML files to the default Nginx web root directory
-#COPY ./tools/html /usr/share/nginx/html
-#
-## Expose port 443 for incoming HTTP traffic
+# Expose port 443 for incoming HTTP traffic
 #EXPOSE 443
-#
+
 ## Start Nginx when the container starts
 CMD ["nginx", "-g", "daemon off;"]
 #CMD ["/bin/sh"]
