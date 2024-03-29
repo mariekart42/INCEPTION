@@ -18,6 +18,12 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
 # Ensure php-fpm directory exists
 RUN mkdir -p /run/php/
 
+ARG MYSQL_NAME
+ARG DB_HOST
+ARG MYSQL_PASSWORD
+ARG MYSQL_USER
+ARG DOMAIN_NAME
+
 WORKDIR /var/www/wordpress
 COPY tools/setup.sh .
 RUN sh setup.sh && rm setup.sh

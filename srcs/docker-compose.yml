@@ -10,7 +10,7 @@ services:
       - wordpress
     container_name: nginx
     image: nginx
-    build: requirements/NGINX
+    build: ./requirements/NGINX
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -18,14 +18,21 @@ services:
     networks:
       - localhost
     ports:
-      - "3333:443"
+      - "443:443"
 
   wordpress:
     depends_on:
       - mariadb
     container_name: wordpress
     image: wordpress
-    build: requirements/WORDPRESS
+    build:
+      context: ./requirements/WORDPRESS
+      args:
+        - MYSQL_NAME
+        - DB_HOST
+        - MYSQL_PASSWORD
+        - MYSQL_USER
+        - DOMAIN_NAME
     restart: unless-stopped
     env_file: .env
     networks:
@@ -36,7 +43,14 @@ services:
   mariadb:
     container_name: mariadb
     image: mariadb
-    build: requirements/MARIADB
+    build:
+      context: ./requirements/MARIADB
+      args:
+        - MYSQL_NAME
+        - DB_HOST
+        - MYSQL_PASSWORD
+        - MYSQL_USER
+        - DOMAIN_NAME
     restart: unless-stopped
     env_file: .env
     networks:
@@ -58,73 +72,3 @@ volumes:
       type: none
       o: bind
       device: ~/data/WORDPRESS
-
-#    depends_on:  # meant is a service, here docker-compose will first create service wordpress and then ngnix
-#      - wordpress
-#    container_name: nginx_container
-#    build:
-#      context: ./srcs/requirements/NGINX
-#    image: nginx  # specify image name
-##    volumes:
-##      - wp:/var/www/
-#    ports:
-#      - "443:80"
-#    networks:
-#      - localhost
-#    restart: always
-
-#  wordpress:
-#    depends_on:
-#      - mariadb
-#    container_name: wordpress_container
-#    build:
-#      context: ./requirements/WORDPRESS
-#      args:  #from .env
-#        - DB_NAME
-#        - DB_HOST
-#        - DB_PASSWORD
-#        - DB_USER
-#        - DOMAIN_NAME
-#    env_file:
-#      - .env
-#    image: wordpress
-#    volumes:
-#      - wp:/var/www/
-#    networks:
-#      - localhost
-#    restart: always
-#
-#  mariadb:
-#    container_name: mariadb_container
-#    build:
-#      context: ./requirements/MARIADB
-#      args:
-#        - DB_NAME
-#        - DB_HOST
-#        - DB_PASSWORD
-#        - DB_USER
-#    env_file:
-#      - .env
-#    image: mariadb
-#    volumes:
-#      - db:/var/lib/mysql
-#    networks:
-#      - localhost
-#    restart: always
-#
-#
-#volumes:
-#  db:
-#    name: db
-#    driver: local
-#    driver_opts:
-#      type: none
-#      o: bind
-#      device: ~/mmensing/data/db
-#  wp:
-#    name: wp
-#    driver: local
-#    driver_opts:
-#      type: none
-#      o: bind
-#      device: ~/mmensing/data/wp
