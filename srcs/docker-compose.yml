@@ -65,10 +65,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ~/data/MARIADB
+      device: /home/mmensing/data/MARIADB
   wp:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ~/data/WORDPRESS
+      device: /home/mmensing/data/WORDPRESS
